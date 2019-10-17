@@ -1,6 +1,6 @@
 {
   "name": "github.io-vue",
-  "version": "2.0.0-alpha.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,11 +8,19 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
+    "@pixi/filter-old-film": "^2.6.0",
+    "animate.css": "^3.6.1",
     "font-awesome.css": "^4.7.2",
     "gsap": "^2.0.1",
-    "pixi.js": "^4.8.3"
+    "imagesloaded": "^4.1.4",
+    "pixi.js": "^4.8.3",
+    "scrollmagic": "^2.0.5",
+    "typed.js": "^2.0.8",
+    "vivus": "^0.4.4",
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.3",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
@@ -22,28 +30,5 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  }
 }
