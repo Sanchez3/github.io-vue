@@ -216,7 +216,7 @@ export default {
   position: relative;
 }
 
-article:nth-child(2n+1) {
+/*article:nth-child(2n+1) {
   margin-right: 1%;
   left: -100%;
 }
@@ -224,7 +224,7 @@ article:nth-child(2n+1) {
 article:nth-child(2n) {
   margin-left: 1%;
   left: 100%;
-}
+}*/
 article.more {
   margin-left: auto;
   margin-right: auto;

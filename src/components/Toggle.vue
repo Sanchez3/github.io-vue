@@ -1,5 +1,5 @@
 <template>
-  <a href="javascript:;" id="toggle" class="hamburger" v-on:click="initToggle">
+  <a href="javascript:;" id="toggle" class="hamburger cur" v-on:click="initToggle">
     <span class="hamburger-box hamburger--emphatic"><span class="hamburger-inner"></span></span>
 </a>
 </template>

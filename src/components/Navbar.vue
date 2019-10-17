@@ -1,5 +1,5 @@
 <template>
-  <nav id="navbar" role="navigation">
+  <nav id="navbar" class="cur" role="navigation">
     <ul>
       <navitem v-for="(todo, index) in todos" v-bind:title="todo" :key="todo.id" v-on:scrollto="scrollTo(index)"></navitem>
     </ul>

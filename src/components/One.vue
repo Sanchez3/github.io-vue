@@ -91,14 +91,14 @@ export default {
 
 </style>
 <style scoped>
-#box1 {
+/*#box1 {
   left: 100%;
   transition: all 1s ease-out;
-}
+}*/
 
-#box1.movein {
+/*#box1.movein {
   left: 0;
-}
+}*/
 
 #one {
   background: url(../assets/img/fulls/02.jpg) center no-repeat;

@@ -49,8 +49,8 @@ export default {
 }
 
 #box2 {
-  left: -100%;
-  transition: all 1s ease-out;
+/*  left: -100%;
+  transition: all 1s ease-out;*/
 }
 
 .skills {
