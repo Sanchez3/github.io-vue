@@ -10,14 +10,14 @@
   "dependencies": {
     "@pixi/filter-old-film": "^2.6.0",
     "animate.css": "^3.6.1",
+    "core-js": "^2.6.5",
     "font-awesome.css": "^4.7.2",
     "gsap": "^2.0.1",
     "imagesloaded": "^4.1.4",
     "pixi.js": "^4.8.3",
     "scrollmagic": "^2.0.5",
-    "typed.js": "^2.0.8",
-    "vivus": "^0.4.4",
-    "core-js": "^2.6.5",
+    "typed.js": "^2.0.11",
+    "vivus": "^0.4.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
