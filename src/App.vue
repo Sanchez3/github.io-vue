@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <div id="nav">
+            <loader></loader>
             <router-link to="/">Home</router-link> |
             <router-link to="/about">About</router-link>
         </div>
@@ -21,6 +22,12 @@
 * {
     margin: 0;
     padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
 }
 
 #nav {

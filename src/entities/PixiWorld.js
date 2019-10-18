@@ -44,7 +44,6 @@ class PixiWorld {
         }
 
     }
-
     handleResize() {
         var w = window.innerWidth;
         var h = window.innerHeight;
@@ -55,15 +54,15 @@ class PixiWorld {
         // console.log(s)
         if (s > w / h) {
             if (w > tw) {
-                pic.scale.set(tw / w/window.devicePixelRatio)
+                pic.scale.set(tw / w / window.devicePixelRatio)
             } else {
-                pic.scale.set(w / tw/window.devicePixelRatio)
+                pic.scale.set(w / tw / window.devicePixelRatio)
             }
         } else {
             if (h > th) {
-                pic.scale.set(th / h/window.devicePixelRatio)
+                pic.scale.set(th / h / window.devicePixelRatio)
             } else {
-                pic.scale.set(h / th/window.devicePixelRatio)
+                pic.scale.set(h / th / window.devicePixelRatio)
             }
         }
         this.app.renderer.resize(w, h);

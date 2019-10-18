@@ -1,54 +1,30 @@
 <template>
-    <div id="about" class="overflow">
-        <header id="header">
-            <navbar></navbar>
-            <toggle></toggle>
-        </header>
-        <intro></intro>
-        <one></one>
-        <two></two>
+    <div id="menu" class="overflow">
         <work></work>
-        <myfooter></myfooter>
     </div>
 </template>
 <script>
-import Navbar from '../components/Navbar'
-import Loader from '../components/Loader'
-import Toggle from '../components/Toggle'
-import Intro from '../components/Intro'
-import One from '../components/One'
-import Two from '../components/Two'
 import Work from '../components/Work'
-import Footer from '../components/Footer'
 export default {
-    name: 'About',
+    name: 'Menu',
     components: {
-        'navbar': Navbar,
-        'loader': Loader,
-        'toggle': Toggle,
-        'intro': Intro,
-        'one': One,
-        'two': Two,
-        'work': Work,
-        'myfooter': Footer
+        'work': Work
     }
 }
 </script>
-<style>
-.main.fullscreen {
-    height: 100%;
-    width: 100%
-}
-</style>
 <style scoped>
 .overflow {
     overflow: hidden;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
 #about {
     height: 100%;
     width: 100%;
-    padding-top: 3rem;
 }
 
 a {
@@ -81,12 +57,16 @@ header p {
     top: 0;
     left: 0;
     width: 100%;
-    /*height: 100%;*/
     height: 3rem;
     align-items: center;
     background: #fff;
     justify-content: center;
     z-index: 1000;
     box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.5);
+}
+
+.main.fullscreen {
+    height: 100%;
+    width: 100%
 }
 </style>
