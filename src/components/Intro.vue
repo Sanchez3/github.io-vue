@@ -1,5 +1,5 @@
 <template>
-  <section id="intro" class="main style1 fullscreen" @mousemove="onDocumentMouseMove">
+  <section id="intro" class="main style1 fullscreen" @mousemove="">
     <div class="content">
       <div class="move">
         <header id="hello">

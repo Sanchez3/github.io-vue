@@ -4,7 +4,9 @@
             <router-link to="/">Home</router-link> |
             <router-link to="/about">About</router-link>
         </div>
-        <router-view />
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 <style>
@@ -22,7 +24,10 @@
 }
 
 #nav {
-    padding: 30px;
+    position: absolute;
+    top: 0;
+    padding: 15px;
+    z-index: 1001;
 }
 
 #nav a {

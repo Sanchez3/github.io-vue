@@ -1,6 +1,6 @@
 <template>
     <div id="about" class="overflow">
-        <header id="header">
+        <header id="heaWder">
             <navbar></navbar>
             <loader></loader>
             <toggle></toggle>

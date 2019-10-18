@@ -270,7 +270,12 @@ article.more {
     stroke-dashoffset: -240.34889px;
   }
 }
-
+a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  color: rgba(0, 0, 0, 0);
+}
 .article {
   display: inline-block;
   width: 45%;
