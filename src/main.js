@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+
 import router from './router'
 import store from './store'
 import 'animate.css'
@@ -74,11 +75,11 @@ var v = new Vue({
                 t1.progress(1)
                 document.getElementById('app').classList.remove('overflow')
                 window.scrollTo(0, 0)
-                TweenMax.to('#header', 0.5, {
+                TweenMax.to('#nav-about', 0.5, {
                     height: '3rem',
                     onComplete: function() {
-                        document.getElementById('navbar').classList.add('cur')
-                        document.getElementById('toggle').classList.add('cur')
+                        // document.getElementById('navbar').classList.add('cur')
+                        // document.getElementById('toggle').classList.add('cur')
                     }
                 })
                 TweenMax.to(document.getElementById('loader'), 0.5, {
@@ -111,5 +112,5 @@ var v = new Vue({
 })
 v.$mount('#app')
 v.initLoader()
-v.initType()
+// v.initType()
 v.initTitle()

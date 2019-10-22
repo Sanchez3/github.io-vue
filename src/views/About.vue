@@ -1,21 +1,17 @@
 <template>
     <div id="about" class="overflow">
         <header id="header">
-            <navbar></navbar>
-            <toggle></toggle>
+            <router-link to="/">
+                <div class="close-btn"></div>
+            </router-link>
         </header>
-        <intro></intro>
         <one></one>
         <two></two>
-        <work></work>
         <myfooter></myfooter>
     </div>
 </template>
 <script>
-import Navbar from '../components/Navbar'
-import Loader from '../components/Loader'
 import Toggle from '../components/Toggle'
-import Intro from '../components/Intro'
 import One from '../components/One'
 import Two from '../components/Two'
 import Work from '../components/Work'
@@ -23,13 +19,9 @@ import Footer from '../components/Footer'
 export default {
     name: 'About',
     components: {
-        'navbar': Navbar,
-        'loader': Loader,
         'toggle': Toggle,
-        'intro': Intro,
         'one': One,
         'two': Two,
-        'work': Work,
         'myfooter': Footer
     }
 }
@@ -48,7 +40,7 @@ export default {
 #about {
     height: 100%;
     width: 100%;
-    padding-top: 3rem;
+    margin-top: 3rem;
 }
 
 a {
@@ -84,7 +76,7 @@ header p {
     /*height: 100%;*/
     height: 3rem;
     align-items: center;
-    background: #fff;
+    /*background: #fff;*/
     justify-content: center;
     z-index: 1000;
     box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.5);
