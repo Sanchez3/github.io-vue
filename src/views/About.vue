@@ -40,7 +40,7 @@ export default {
 #about {
     height: 100%;
     width: 100%;
-    margin-top: 3rem;
+    padding-top: 3rem;
 }
 
 a {

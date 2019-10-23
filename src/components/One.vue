@@ -18,6 +18,7 @@ export default {
     /*background: #ffffff;*/
     color:#F7F7EF;
     padding: 2rem;
+    line-height: 150%;
 }
 
 .box.style2 {

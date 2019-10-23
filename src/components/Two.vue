@@ -56,7 +56,7 @@ export default {
 .skills {
     /*border: 1px double #01abe9;*/
     padding: 0.5rem;
-    box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0rem 0rem 0.3rem 0.3rem rgba(0, 0, 0, 0.5);
 }
 
 .half {

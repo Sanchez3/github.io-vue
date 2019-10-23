@@ -7,8 +7,9 @@ import 'animate.css'
 import 'font-awesome.css'
 import Vivus from 'vivus'
 import imagesLoaded from 'imagesloaded'
-import { TweenMax, Power2 } from 'gsap'
+import { TweenLite, TweenMax, Power2 } from 'gsap'
 import Typed from 'typed.js'
+// import './entities/MorphSVGPlugin.js'
 
 Vue.config.productionTip = false
 
@@ -43,8 +44,8 @@ var v = new Vue({
             })
             l.stop().reset()
             var counts = document.getElementsByTagName('img').length
-            var t1 = TweenMax.fromTo('.st0', 1, { fill: '#FFF' }, {
-                fill: '#000',
+            var t1 = TweenMax.fromTo('.st0', 1, { fill: '#000' }, {
+                fill: '#F7F7EF',
                 paused: true
             })
 
@@ -78,6 +79,7 @@ var v = new Vue({
                 TweenMax.to('#nav-about', 0.5, {
                     height: '3rem',
                     onComplete: function() {
+                        TweenMax.to(document.getElementById('svg-logo'), 3, { morphSVG: document.getElementById('svg-about') })
                         // document.getElementById('navbar').classList.add('cur')
                         // document.getElementById('toggle').classList.add('cur')
                     }
