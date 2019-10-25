@@ -57,7 +57,7 @@ header p {
     top: 0;
     left: 0;
     width: 100%;
-    height: 3rem;
+    height: 0.9rem;
     align-items: center;
     background: #fff;
     justify-content: center;

@@ -40,7 +40,7 @@ export default {
 #about {
     height: 100%;
     width: 100%;
-    padding-top: 3rem;
+    padding-top: 0.9rem;
 }
 
 a {
@@ -74,11 +74,12 @@ header p {
     left: 0;
     width: 100%;
     /*height: 100%;*/
-    height: 3rem;
+    height: 0.9rem;
     align-items: center;
     /*background: #fff;*/
     justify-content: center;
     z-index: 1000;
     box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.5);
+
 }
 </style>

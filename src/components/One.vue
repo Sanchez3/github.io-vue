@@ -17,12 +17,15 @@ export default {
 .box {
     /*background: #ffffff;*/
     color:#F7F7EF;
-    padding: 2rem;
+    padding: 0.2rem;
     line-height: 150%;
+}
+.box header h2{
+    margin-bottom: 0.25rem; 
 }
 
 .box.style2 {
-    padding: 2rem 1rem 2rem 1rem;
+    padding: 0.2rem 0.1rem 0.2rem 0.1rem;
 }
 
 .main.style2 {
@@ -34,7 +37,7 @@ export default {
     -webkit-justify-content: center;
     -ms-justify-content: center;
     justify-content: center;
-    padding: 3rem 0;
+    padding: 0.9rem 0;
     overflow: hidden;
 }
 
@@ -49,7 +52,7 @@ export default {
     transform: translateZ(0);*/
     position: relative;
     /* min-width: 245px;*/
-    width: 50%;
+    width:80%;
     margin: auto;
 }
 

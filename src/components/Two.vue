@@ -18,7 +18,7 @@
                     <li>Git</li>
                 </ul>
                 <ul class="half">
-                    <li>Gulp / Webpack</li>
+                    <li>Gulp/Webpack</li>
                     <li>Canvas 2D</li>
                     <li>three.js 3D</li>
                     <li>Vue</li>
@@ -55,13 +55,15 @@ export default {
 
 .skills {
     /*border: 1px double #01abe9;*/
+    font-size:0.30rem;
+    margin: 0.2rem;
     padding: 0.5rem;
-    box-shadow: inset 0rem 0rem 0.3rem 0.3rem rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0rem 0rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
 }
 
 .half {
-    width: 35%;
-    margin: 1rem;
+    width: 40%;
+    margin: 0.01rem;
     margin-top: 0;
     display: inline-block;
     text-align: left;

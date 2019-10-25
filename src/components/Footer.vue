@@ -19,8 +19,8 @@ export default {
 <style scoped>
 #footer {
     position: relative;
-    height: 4rem;
-    line-height: 5rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
     margin: 0;
     /*background: #172a53;*/
     color: rgba(206, 206, 206, 0.5);
@@ -28,7 +28,7 @@ export default {
     height: auto;
     line-height: inherit;
     text-align: center;
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 0.2rem 0.1rem 0.1rem 0.1rem;
     bottom: 0;
 }
 
@@ -56,16 +56,15 @@ ul.actions {
 }
 
 ul.actions li {
-    font-size: 1.25rem;
+    font-size: 0.45rem;
     margin: 0;
 }
 
 ul.actions li a {
-    padding: 0.5rem;
+    padding: 0.02rem;
 }
 
 ul.menu {
-
     position: relative;
     right: 0;
     top: 0;
@@ -75,13 +74,15 @@ ul.menu {
 
 ul.menu li {
     border-left: 0;
-    padding: 1rem 0 0 0;
+    padding: 0.1rem 0 0 0;
     margin: 0;
     display: block;
     border-left-color: rgba(185, 186, 187, 0.2);
-    font-size: 0.9rem;
+    font-size: 0.3rem;
 }
-
+ul.actions li:first-child{
+    margin: 0 0 0 0;
+}
 ul.actions li {
     display: inline-block;
     margin: 0 0 0 0.5rem;
