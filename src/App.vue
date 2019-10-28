@@ -36,14 +36,13 @@ export default {
 * {
     margin: 0;
     padding: 0;
-    background: #1D1E19
 }
 
 html,
 body {
     width: 100%;
     height: 100%;
-    background: #1D1E19
+    background: #1D1E19;
 }
 
 .overflow {

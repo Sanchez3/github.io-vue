@@ -1,10 +1,15 @@
 <template>
     <div id="about" class="overflow">
-        <header id="header">
-            <router-link to="/">
-                <div class="close-btn"></div>
-            </router-link>
-        </header>
+        <router-link to="/">
+            <div id="close-btn">
+                <div class="line-container">
+                    <div class="cb-line line0"></div>
+                </div>
+                <div class="line-container">
+                    <div class="cb-line line1"></div>
+                </div>
+            </div>
+        </router-link>
         <one></one>
         <two></two>
         <myfooter></myfooter>
@@ -41,6 +46,44 @@ export default {
     height: 100%;
     width: 100%;
     padding-top: 0.9rem;
+}
+
+#close-btn {
+    position: absolute;
+    right: 0;
+    margin: 0.35rem 1rem;
+    top: 0;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+#close-btn:hover .cb-line{
+    width: 0.7rem;
+    height: 0.1rem;
+}
+
+.cb-line {
+    width: 0.8rem;
+    height: .114rem;
+    background: #fff;
+    transform-origin: center center;
+    transition: all 400ms ease-in-out;
+}
+
+.line-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.line0 {
+    transform: rotate(45deg);
+    transition-delay: 100ms;
+}
+
+.line1 {
+    transform: rotate(-45deg);
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .75);
 }
 
 a {
