@@ -1,10 +1,20 @@
 <template>
     <div id="app" class="overflow">
-        <div id="nav-about">
+        <div id="logo-container">
             <router-link to="/about">
                 <Logo></Logo>
             </router-link>
         </div>
+        <router-link to="/">
+            <div id="close-btn" v-on:click="doNoise">
+                <div class="line-container">
+                    <div class="cb-line line0"></div>
+                </div>
+                <div class="line-container">
+                    <div class="cb-line line1"></div>
+                </div>
+            </div>
+        </router-link>
         <div id="nav">
             <router-link to="/">Home</router-link> |
             <router-link to="/menu">Menu</router-link>
@@ -16,13 +26,136 @@
 </template>
 <script>
 import Logo from './components/Logo'
+import { TweenMax } from 'gsap'
+import TimelineMax from 'gsap/TimelineMax'
 export default {
     name: 'App',
     components: {
         Logo
+    },
+    data() {
+        return {
+            lineTl: null,
+            nosieTl: null
+        }
+    },
+    mounted() {
+        this.$nextTick(function() {
+            this.renderClosebtn();
+            // this.doClosebtn();
+        })
+    },
+    methods: {
+        doHover: function(event) {
+            event.target.classList.add('hover')
+        },
+        disHover: function(event) {
+            event.target.classList.remove('hover')
+        },
+        renderClosebtn: function() {
+            var line0 = document.getElementsByClassName('line0')[0];
+            var line1 = document.getElementsByClassName('line1')[0];
+            // TweenMax.to(line0, 0.3, { width: 0 });
+            // TweenMax.set([line0, line1], { scaleX: 0 });
+            this.lineTl = new TimelineMax({
+                paused: true
+            })
+            this.lineTl.to(line1, 0.1, { scaleX: 1 })
+                .to(line0, 0.1, { scaleX: 1 }, "-=0.1")
+                .to(line1, 0.2, { rotation: 45 })
+                .to(line0, 0.2, { rotation: -45 }, "-=0.2")
+        },
+        doNoise: function(d) {
+            var event = arguments[0];
+            console.log(event)
+            if (!event.target.classList.contains('noise-filter'))
+                event.target.classList.add('noise-filter')
+            d = parseInt(d)
+            var turbVal = { val: 0.000001 };
+            var turb = document.querySelectorAll('#noise feTurbulence')[0];
+            if (this.nosieTl === null) {
+                this.nosieTl = new TimelineLite({
+                    paused: true,
+                    delay: d,
+                    onUpdate: function() {
+                        turb.setAttribute('baseFrequency', '0 ' + turbVal.val);
+                    }
+                })
+                this.nosieTl.to(turbVal, 0.1, { val: 0.2 })
+                    .to(turbVal, 0.1, { val: 0.000001 });
+            }
+            if (d) {
+                this.nosieTl.restart(true);
+            } else {
+                this.nosieTl.restart();
+            }
+            this.disClosebtn();
+        },
+        disClosebtn: function() {
+            this.lineTl.reverse();
+        },
+        doClosebtn: function() {
+            this.lineTl.play();
+        }
+    },
+    watch: {
+        '$route'(to, from) {
+            // 对路由变化作出响应...
+            if (to.name === 'about') {
+                console.log('cbtn')
+                this.doClosebtn();
+            }
+        }
     }
 }
 </script>
+<style scoped>
+#close-btn {
+    position: absolute;
+    right: 0;
+    margin: 0.35rem 1rem;
+    top: 0;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+#close-btn.hover .cb-line {
+    width: 0.7rem;
+    height: 0.1rem;
+}
+
+.cb-line {
+    width: 0.8rem;
+    height: .114rem;
+    background: #fff;
+    transform-origin: center center;
+
+}
+
+.line-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.line0 {
+    transform: rotate(0deg) scaleX(0);
+}
+
+.line1 {
+    transform: rotate(0deg) scaleX(0);
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .75);
+}
+
+#logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1D1E19;
+}
+</style>
 <style>
 #app {
     font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "STHeitiSC-Light", "Microsoft YaHei", "微软雅黑", "PingFang SC", "Heiti SC", "WenQuanYi Micro Hei", Arial, sans-serif;
@@ -66,13 +199,11 @@ body {
     color: #42b983;
 }
 
-#nav-about {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /*background: #fff;*/
+
+
+.noise-filter {
+    -webkit-filter: url(#noise);
+    filter: url(#noise);
 }
 
 /**

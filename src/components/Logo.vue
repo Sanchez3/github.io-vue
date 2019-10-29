@@ -1,6 +1,6 @@
 <template>
     <div id='logo' v-on:click="doNoise">
-        <svg x="0" y="0" viewBox="0 0 300 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg x="0" y="0" viewBox="0 0 206 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
                 <filter id='noise' x='0%' y='0%' width='100%' height='100%'>
                     <feTurbulence type="fractalNoise" baseFrequency="0 0.000001" result="NOISE" numOctaves="2" />
@@ -40,6 +40,11 @@ var kute = require("kute.js"); //grab the core
 require("kute.js/kute-svg"); // Add SVG Plugin
 export default {
     name: 'logo',
+    data() {
+        return {
+            nosieTl: null
+        }
+    },
     methods: {
         resetSVG: function(d) {
             d = parseInt(d)
@@ -48,22 +53,28 @@ export default {
             }
         },
         doNoise: function(d) {
+            var event = arguments[0];
+            console.log(event)
+            if (!event.target.classList.contains('noise-filter'))
+                event.target.classList.add('noise-filter')
             d = parseInt(d)
             var turbVal = { val: 0.000001 };
             var turb = document.querySelectorAll('#noise feTurbulence')[0];
-            var btTl = new TimelineLite({
-                paused: true,
-                delay: d,
-                onUpdate: function() {
-                    turb.setAttribute('baseFrequency', '0 ' + turbVal.val);
-                }
-            })
-            btTl.to(turbVal, 0.1, { val: 0.2 })
-                .to(turbVal, 0.1, { val: 0.000001 });
+            if (this.nosieTl === null) {
+                this.nosieTl = new TimelineLite({
+                    paused: true,
+                    delay: d,
+                    onUpdate: function() {
+                        turb.setAttribute('baseFrequency', '0 ' + turbVal.val);
+                    }
+                })
+                this.nosieTl.to(turbVal, 0.1, { val: 0.2 })
+                    .to(turbVal, 0.1, { val: 0.000001 });
+            }
             if (d) {
-                btTl.restart(true);
+                this.nosieTl.restart(true);
             } else {
-                btTl.restart();
+                this.nosieTl.restart();
             }
         },
         initSVG: function(d) {
@@ -78,7 +89,7 @@ export default {
             // 对路由变化作出响应...
             console.log(to, from)
             if (to.name === 'home' && from.name === 'about') {
-              this.resetSVG(200);
+                this.resetSVG(200);
             }
             if (to.name === 'about') {
                 this.initSVG(200);
@@ -88,25 +99,26 @@ export default {
     },
 }
 </script>
+<style>
+</style>
 <style scoped>
 #logo {
     position: absolute;
-    width: auto;
-    height: 100%;
+    width: 2.06rem;
+    height: 0.94rem;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     z-index: 1001;
-    -webkit-filter: url(#noise);
-    filter: url(#noise);
+
 }
 
 svg {
     position: absolute;
-    width: auto;
-    height: 1rem;
+    width: 100%;
+    height:100%;
     overflow: visible;
     bottom: 0;
     top: 0;

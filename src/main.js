@@ -67,11 +67,12 @@ var v = new Vue({
                 t1.progress(1)
                 document.getElementById('app').classList.remove('overflow')
                 window.scrollTo(0, 0)
-                TweenMax.to('#nav-about', 0.5, {
+                TweenMax.to('#logo-container', 0.5, {
                     height: '0.9rem',
                 })
-                TweenMax.to(document.querySelector('svg'), 0.5, {
+                TweenMax.to('#logo', 0.5, {
                     height: '0.72rem',
+                    width:'1.58rem',
                     margin: 'auto 0.31rem'
                 })
             })
