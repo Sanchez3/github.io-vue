@@ -48,9 +48,9 @@ export default {
       app.renderer.view.style.touchAction = 'auto'
       var bg
       if (this.$props.id === 7) {
-        bg = PIXI.Sprite.fromImage(require(`@/assets/img/thumbs/0${this.$props.id}.gif`))
+        bg = PIXI.Sprite.fromImage(`${this.publicPath}/img/thumbs/0${this.$props.id}.gif`)
       } else {
-        bg = PIXI.Sprite.fromImage(require(`@/assets/img/thumbs/0${this.$props.id}.jpg`))
+        bg = PIXI.Sprite.fromImage(`${this.publicPath}/img/thumbs/0${this.$props.id}.jpg`)
       }
       bg.scale.set(s)
       app.stage.addChild(bg)

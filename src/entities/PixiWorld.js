@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
-import PixelStretchFilter from '../filters/PixelStretchFilter.js'
+import { GlitchFilter } from '@pixi/filter-glitch';
+// import PixelStretchFilter from '../filters/PixelStretchFilter.js'
 import * as dat from 'dat.gui';
 
 class PixiWorld {
@@ -10,28 +11,35 @@ class PixiWorld {
         var app = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
-            resolution: window.devicePixelRatio,
+            autoDensity: true,
+            resolution: window.devicePixelRatio || 1,
             antialias: true,
             preserveDrawingBuffer: true,
         });
         this.app = app;
-        document.body.appendChild(app.view);
+        document.getElementsByClassName('hello')[0].appendChild(app.view);
+        // document.body.appendChild(app.view);
         // PIXI.utils.clearTextureCache;
-        app.loader.add('pic1', `./assets/img/pic${Math.floor(Math.random()*5+1)}.jpg`)
+        app.loader.add('pic1', `./img/thumbs/0${Math.floor(Math.random()*9)}.jpg`)
         app.loader.load(onLoaded.bind(this))
 
         function onLoaded(loader, resources) {
+            // console.log('pic')
             this.pic = new PIXI.Sprite(resources.pic1.texture)
+            this.pic.anchor.set(0.5);
+            this.pic.scale.set(2)
+            this.pic.x = app.screen.width / 2;
+            this.pic.y = app.screen.height / 2;
             app.stage.addChild(this.pic)
             this.picT = resources.pic1.texture;
             // uniform float boundary;
             // uniform float verticalDir;
-            var stretchfilter = new PixelStretchFilter(0, false)
-            app.stage.filters = [stretchfilter]
+            var glitchfilter = new GlitchFilter()
+            app.stage.filters = [glitchfilter]
 
             var gui = new dat.GUI();
-            gui.add(stretchfilter, 'boundary').min(-1).max(1).step(0.01);
-            gui.add(stretchfilter, 'verticalDir').name('verticalDir');
+            // gui.add(glitchfilter, 'boundary').min(-1).max(1).step(0.01);
+            // gui.add(glitchfilter, 'verticalDir').name('verticalDir');
 
             window.addEventListener('resize', this.handleResize.bind(this))
             this.handleResize();
@@ -50,24 +58,26 @@ class PixiWorld {
         var pic = this.pic;
         var tw = this.picT.width;
         var th = this.picT.height;
+        console.log(window.devicePixelRatio)
         var s = tw / th;
         // console.log(s)
         if (s > w / h) {
             if (w > tw) {
-                pic.scale.set(tw / w / window.devicePixelRatio)
+                pic.scale.set(w / tw)
             } else {
-                pic.scale.set(w / tw / window.devicePixelRatio)
+                pic.scale.set(tw / w)
+
             }
         } else {
             if (h > th) {
-                pic.scale.set(th / h / window.devicePixelRatio)
+                pic.scale.set(h / th)
             } else {
-                pic.scale.set(h / th / window.devicePixelRatio)
+                pic.scale.set(th / h)
+
             }
         }
         this.app.renderer.resize(w, h);
-
     }
 
 }
-export default PixelStretch;
+export default PixiWorld;
