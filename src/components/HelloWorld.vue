@@ -1,5 +1,7 @@
 <template>
     <div class="hello">
+      <div class="canvas-element"></div>
+      <div class="gui-container"></div>
     </div>
 </template>
 <script>
@@ -25,5 +27,12 @@ export default {
     left: 0;
     top: 0;
 }
+.gui-container{
+  position: absolute;
+    right: 0;
+    bottom: 1rem;
+    color: #fff;
+}
+
 
 </style>

@@ -60,7 +60,7 @@ export default {
 .hamburger-inner::after {
   width: 30px;
   height: 4px;
-  background-color: #000;
+  background-color: #F7F7EF;
   border-radius: 4px;
   position: absolute;
   transition-property: transform;
@@ -119,12 +119,6 @@ export default {
   top: -30px;
   transform: translate3d(-30px, 30px, 0) rotate(-45deg);
   transition: right 0.125s ease-out, top 0.05s 0.125s linear, transform 0.125s 0.175s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-@media screen and (max-width: 500px) {
-  #toggle.cur {
-    display: block;
-  }
 }
 
 </style>
