@@ -29,15 +29,15 @@ class PixiWorld {
         function onLoaded(loader, resources) {
             // console.log('pic')
             this.pic = new PIXI.Sprite(resources.pic1.texture)
-            // this.pic.anchor.set(0.5);
+            this.pic.anchor.set(0.5);
             this.pic.scale.set(0.5)
-            this.pic.x = 0;
-            this.pic.y = 0;
+            this.pic.x = app.screen.width / 2;
+            this.pic.y = app.screen.height / 2;
             app.stage.addChild(this.pic)
             this.picT = resources.pic1.texture;
             // uniform float boundary;
             // uniform float verticalDir;
-            var glitchfilter = new GlitchFilter({ fillMode: 3, seed: 0.5, red: [1, 2], blue: [2, 1] })
+            var glitchfilter = new GlitchFilter({ fillMode: 0, seed: 0.5, red: [1, 2], blue: [2, 1] })
             app.stage.filters = [glitchfilter]
             glitchfilter.animating = false;
             this.events.on('animate', function() {
@@ -79,12 +79,14 @@ class PixiWorld {
 
 
             function onDocumentMouseMove(event) {
-                mouseX = event.clientX - windowHalfX;
-                mouseY = event.clientY - windowHalfY;
+                mouseX = event.clientX ;
+                mouseY = event.clientY - window.innerHeight;
+                // console.log(event.clientX, mouseY)
             }
             this.events.on('parallax', function() {
-                this.pic.x += (mouseX - this.pic.x ) * 0.01;
-                this.pic.y += (-mouseY - this.pic.y) * 0.01;
+                // console.log(mouseX -this.pic.x,-mouseY-this.pic.y)
+                this.pic.x += (mouseX -this.pic.x) * 0.01;
+                this.pic.y += (-mouseY -this.pic.y) * 0.01;
             }, this);
         }
     }
@@ -102,7 +104,7 @@ class PixiWorld {
         var w = window.innerWidth;
         var h = window.innerHeight;
         var pic = this.pic;
-        var scale0=0.5
+        var scale0 = 0.8
         var tw = this.picT.width;
         var th = this.picT.height;
         console.log(window.devicePixelRatio)
@@ -110,16 +112,16 @@ class PixiWorld {
         // console.log(s)
         if (s > w / h) {
             if (w > tw) {
-                pic.scale.set(w / tw*scale0)
+                pic.scale.set(w / tw * scale0)
             } else {
-                pic.scale.set(tw / w*scale0)
+                pic.scale.set(tw / w * scale0)
 
             }
         } else {
             if (h > th) {
-                pic.scale.set(h / th*scale0)
+                pic.scale.set(h / th * scale0)
             } else {
-                pic.scale.set(th / h*scale0)
+                pic.scale.set(th / h * scale0)
 
             }
         }
