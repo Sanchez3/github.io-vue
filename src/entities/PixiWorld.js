@@ -35,13 +35,27 @@ class PixiWorld {
             this.pic.y = app.screen.height / 2;
             app.stage.addChild(this.pic)
             this.picT = resources.pic1.texture;
-            // uniform float boundary;
-            // uniform float verticalDir;
-            var glitchfilter = new GlitchFilter({ fillMode: 0, seed: 0.5, red: [1, 2], blue: [2, 1] })
+
+
+            var glitchfilter = new GlitchFilter({ slices:0,offset:0,fillMode: 0, seed: 0.5, red: [1, 2], blue: [2, 1] })
             app.stage.filters = [glitchfilter]
             glitchfilter.animating = false;
             this.events.on('animate', function() {
                 glitchfilter.animating && (glitchfilter.seed = Math.random())
+            })
+
+            this.pic.interactive = true;
+            this.pic.on('pointerover', function() {
+                glitchfilter.offset=Math.random()*50-50;
+                glitchfilter.slices=Math.random()*10
+                glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                glitchfilter.animating = true;
+            })
+            this.pic.on('pointerout', function() {
+                // glitchfilter.animating = false;
+                TweenMax.to(glitchfilter, 0.5, { offset:0,slices:0,red: [0, 0], green: [0, 0], blue: [0, 0] })
             })
 
             var gui = new dat.GUI({ autoPlace: false });
@@ -49,7 +63,7 @@ class PixiWorld {
             gui.add(glitchfilter, 'animating').name('(animating)');
             gui.add(glitchfilter, 'seed', 0, 1).step(0.01);
             gui.add(glitchfilter, 'slices').min(0).max(20).step(1).name('slices');
-            gui.add(glitchfilter, 'offset', -400, 400);
+            gui.add(glitchfilter, 'offset', -400, 1000);
             gui.add(glitchfilter, "direction", -180, 180);
             gui.add(glitchfilter, "fillMode", {
                 TRANSPARENT: 0,
@@ -70,23 +84,22 @@ class PixiWorld {
             this.handleResize();
             this.animateTimer = 0;
             app.ticker.add(this.animate, this);
-
             var mouseX = 0,
                 mouseY = 0;
             var windowHalfX = window.innerWidth / 2;
             var windowHalfY = window.innerHeight / 2;
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-
-
-            function onDocumentMouseMove(event) {
-                mouseX = event.clientX ;
-                mouseY = event.clientY - window.innerHeight;
-                // console.log(event.clientX, mouseY)
+            app.stage.interactive = true;
+            app.stage
+                .on('pointermove', onPointerMove)
+            // document.addEventListener('mousemove', onDocumentMouseMove, false);
+            function onPointerMove(event) {
+                // console.log(event)
+                mouseX = event.data.global.x;
+                mouseY = event.data.global.y - window.innerHeight;
             }
             this.events.on('parallax', function() {
-                // console.log(mouseX -this.pic.x,-mouseY-this.pic.y)
-                this.pic.x += (mouseX -this.pic.x) * 0.01;
-                this.pic.y += (-mouseY -this.pic.y) * 0.01;
+                this.pic.x += (mouseX - this.pic.x) * 0.01;
+                this.pic.y += (-mouseY - this.pic.y) * 0.01;
             }, this);
         }
     }
