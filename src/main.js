@@ -6,7 +6,8 @@ import store from './store'
 import 'animate.css'
 import 'font-awesome.css'
 import imagesLoaded from 'imagesloaded'
-import { TweenMax, Power2 } from 'gsap'
+import { TweenMax, TimelineLite, Power2, Elastic, CSSPlugin } from "gsap/TweenMax"
+import EndArrayPlugin from "gsap/EndArrayPlugin";
 import Typed from 'typed.js'
 
 
@@ -72,7 +73,7 @@ var v = new Vue({
                 })
                 TweenMax.to('#logo', 0.5, {
                     height: '0.72rem',
-                    width:'1.58rem',
+                    width: '1.58rem',
                     margin: 'auto 0.31rem'
                 })
             })

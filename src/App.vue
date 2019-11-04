@@ -26,8 +26,8 @@
 </template>
 <script>
 import Logo from './components/Logo'
-import { TweenMax } from 'gsap'
-import TimelineMax from 'gsap/TimelineMax'
+// import { TweenMax } from 'gsap'
+// import TimelineMax from 'gsap/TimelineMax'
 export default {
     name: 'App',
     components: {
@@ -57,7 +57,7 @@ export default {
             var line1 = document.getElementsByClassName('line1')[0];
             // TweenMax.to(line0, 0.3, { width: 0 });
             // TweenMax.set([line0, line1], { scaleX: 0 });
-            this.lineTl = new TimelineMax({
+            this.lineTl = new TimelineLite({
                 paused: true
             })
             this.lineTl.to(line1, 0.1, { scaleX: 1 })
