@@ -7,6 +7,39 @@ class PixiWorld {
     constructor() {
         this.init()
     }
+    initSprite(r) {
+        var _resource = r;
+        var sprite;
+        var anim = false;
+        console.log(_resource)
+        if ((_resource.data).hasOwnProperty('frames')) anim = true;
+        if (anim) {
+            var frames = _resource.data.frames;
+            var meta = _resource.data.meta;
+            var textures = [];
+            console.log(frames)
+            var count = 0;
+            for (var f in frames) {
+                var texture = PIXI.Texture.from(f)
+                textures.push(texture);
+                count++;
+                this.picT = texture;
+            }
+            sprite = new PIXI.AnimatedSprite(textures);
+            sprite.animationSpeed = count / 60/2;
+            sprite.loop = true;
+            sprite.scale.set(1);
+            sprite.anchor.set(0.5);
+            sprite.play()
+        } else {
+            sprite = new PIXI.Sprite(_resource.texture);
+            sprite.anchor.set(0.5);
+            sprite.scale.set(1);
+        }
+
+
+        return sprite
+    }
     init() {
         var that = this;
         var iWidth = window.innerWidth;
@@ -25,21 +58,36 @@ class PixiWorld {
         document.getElementsByClassName('canvas-element')[0].appendChild(app.view);
         // document.body.appendChild(app.view);
         // PIXI.utils.clearTextureCache;
-        app.loader.add('pic1', `./img/thumbs/0${Math.floor(Math.random()*9)}.jpg`)
+        app.loader.add('00', `./img/details/00.png`)
+        app.loader.add('01', './img/details/01.json')
+        app.loader.add('02', './img/details/02.json')
+        app.loader.add('03', './img/details/03.png')
+        app.loader.add('04', './img/details/04.json')
+        app.loader.add('05', './img/details/05.json')
+        app.loader.add('06', './img/details/06.json')
+        app.loader.add('07', './img/details/07.json')
+        app.loader.add('08', './img/details/08.json')
+        app.loader.add('09', './img/details/09.json')
+        app.loader.add('10', './img/details/10.json')
         app.loader.load(onLoaded.bind(this))
 
         function onLoaded(loader, resources) {
             // console.log('pic')
-            this.pic = new PIXI.Sprite(resources.pic1.texture)
-            this.pic.anchor.set(0.5);
-            this.pic.scale.set(0.5)
+            // console.log(resources['01'].data)
+
+            this.pic = this.initSprite(resources[`09`]);
             this.pic.x = app.screen.width / 2;
             this.pic.y = app.screen.height / 2;
+            // this.pic = new PIXI.Sprite(resources.p1.texture)
+            // this.pic.anchor.set(0.5);
+            // this.pic.scale.set(0.5)
+            // this.pic.x = app.screen.width / 2;
+            // this.pic.y = app.screen.height / 2;
             app.stage.addChild(this.pic)
-            this.picT = resources.pic1.texture;
+            // this.picT = resources.pic1.texture;
 
 
-            var glitchfilter = new GlitchFilter({ slices: 0, offset: 0, fillMode: 0, seed: 0.5, red: [1, 2], blue: [2, 1] })
+            var glitchfilter = new GlitchFilter({ slices: 0, offset: 0, fillMode: 0, seed: 0.5, red: [0, 0], blue: [0, 0] })
             app.stage.filters = [glitchfilter]
             glitchfilter.animating = false;
             this.events.on('animate', function() {
@@ -47,25 +95,27 @@ class PixiWorld {
             })
 
             this.pic.interactive = true;
-            this.pic.on('pointerover', function() {
-                glitchfilter.offset = Math.random() * 50 - 50;
-                glitchfilter.slices = Math.random() * 10
-                glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+            this.pic.on('mouseover', function() {
+                // glitchfilter.offset = Math.random() * 50 - 50;
+                // glitchfilter.slices = Math.random() * 10
+                // glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                // glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                // glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
                 glitchfilter.animating = true;
-            })
-            this.pic.on('pointerout', function() {
+                this.pic.play()
+            }, this)
+            this.pic.on('mouseout', function() {
                 glitchfilter.animating = false;
+                this.pic.stop()
                 TweenMax.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
                 TweenMax.to(glitchfilter, 0.5, {
                     offset: 0,
                     slices: 0,
                     onUpdate: function() {
-                        console.log(glitchfilter.green)
+                        // console.log(glitchfilter.green)
                     }
                 })
-            })
+            }, this)
 
             var gui = new dat.GUI({ autoPlace: false });
             document.getElementsByClassName('gui-container')[0].appendChild(gui.domElement);
@@ -89,8 +139,8 @@ class PixiWorld {
             gui.add(glitchfilter.green, "1", -50, 50).name("green.y");
 
 
-            window.addEventListener('resize', this.handleResize.bind(this))
-            this.handleResize();
+            // window.addEventListener('resize', this.handleResize.bind(this))
+            // this.handleResize();
             this.animateTimer = 0;
             app.ticker.add(this.animate, this);
             var mouseX = null,
@@ -99,7 +149,7 @@ class PixiWorld {
             var windowHalfY = iHeight / 2;
             app.stage.interactive = true;
             app.stage
-                .on('pointermove', onPointerMove)
+                .on('mousemove', onPointerMove)
             // document.addEventListener('mousemove', onDocumentMouseMove, false);
             function onPointerMove(event) {
                 // console.log(event)
@@ -133,7 +183,7 @@ class PixiWorld {
         var w = window.innerWidth;
         var h = window.innerHeight;
         var pic = this.pic;
-        var scale0 = 0.8
+        var scale0 = 0.9
         var tw = this.picT.width;
         var th = this.picT.height;
         console.log(window.devicePixelRatio)

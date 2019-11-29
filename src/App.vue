@@ -2,7 +2,7 @@
     <div id="app" class="overflow">
         <div id="logo-container">
             <router-link to="/about">
-                <Logo></Logo>
+                <Logo0></Logo0>
             </router-link>
         </div>
         <router-link to="/">
@@ -25,13 +25,13 @@
     </div>
 </template>
 <script>
-import Logo from './components/Logo'
+import Logo0 from './components/Logo0'
 // import { TweenMax } from 'gsap'
 // import TimelineMax from 'gsap/TimelineMax'
 export default {
     name: 'App',
     components: {
-        Logo
+        Logo0
     },
     data() {
         return {
