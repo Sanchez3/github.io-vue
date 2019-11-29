@@ -1,0 +1,92 @@
+{"frames": {
+
+"p9-00.png":
+{
+	"frame": {"x":1,"y":1,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-01.png":
+{
+	"frame": {"x":1,"y":330,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-02.png":
+{
+	"frame": {"x":1,"y":659,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-03.png":
+{
+	"frame": {"x":330,"y":1,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-04.png":
+{
+	"frame": {"x":330,"y":330,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-05.png":
+{
+	"frame": {"x":330,"y":659,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-06.png":
+{
+	"frame": {"x":659,"y":1,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-07.png":
+{
+	"frame": {"x":659,"y":330,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-08.png":
+{
+	"frame": {"x":659,"y":659,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+},
+"p9-09.png":
+{
+	"frame": {"x":988,"y":1,"w":327,"h":327},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":327},
+	"sourceSize": {"w":327,"h":327}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "09.png",
+	"format": "RGBA8888",
+	"size": {"w":1316,"h":987},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5f021ce46d9d754e5bb5bc7f002f54d6:f63fc074a8fe84433c7f485e3bd1db7d:4da6ab93866efc242cf8e827fb56381c$"
+}
+}
