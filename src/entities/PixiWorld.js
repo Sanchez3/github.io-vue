@@ -26,7 +26,7 @@ class PixiWorld {
                 this.picT = texture;
             }
             sprite = new PIXI.AnimatedSprite(textures);
-            sprite.animationSpeed = count / 60/2;
+            sprite.animationSpeed = count / 60 / 2;
             sprite.loop = true;
             sprite.scale.set(1);
             sprite.anchor.set(0.5);
@@ -75,7 +75,7 @@ class PixiWorld {
             // console.log('pic')
             // console.log(resources['01'].data)
 
-            this.pic = this.initSprite(resources[`09`]);
+            this.pic = this.initSprite(resources[`01`]);
             this.pic.x = app.screen.width / 2;
             this.pic.y = app.screen.height / 2;
             // this.pic = new PIXI.Sprite(resources.p1.texture)
@@ -88,33 +88,50 @@ class PixiWorld {
 
 
             var glitchfilter = new GlitchFilter({ slices: 0, offset: 0, fillMode: 0, seed: 0.5, red: [0, 0], blue: [0, 0] })
-            app.stage.filters = [glitchfilter]
+            this.pic.filters = [glitchfilter]
             glitchfilter.animating = false;
             this.events.on('animate', function() {
-                glitchfilter.animating && (glitchfilter.seed = Math.random())
+                // glitchfilter.animating && (glitchfilter.seed = Math.random())
+                if (glitchfilter.animating) {
+                    glitchfilter.offset = Math.random() * 50 - 50;
+                    glitchfilter.slices = Math.random() * 100
+                    glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                    glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                    glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                }
             })
 
             this.pic.interactive = true;
-            this.pic.on('mouseover', function() {
-                // glitchfilter.offset = Math.random() * 50 - 50;
-                // glitchfilter.slices = Math.random() * 10
-                // glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                // glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                // glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+            this.pic.on('pointerdown', function() {
                 glitchfilter.animating = true;
+
+                // TweenMax.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
+                // TweenMax.to(glitchfilter, 0.5, {
+                //     offset: 0,
+                //     slices: 0,
+                //     onUpdate: function() {
+                //         // console.log(glitchfilter.green)
+                //     }
+                // })
+            })
+            this.pic.on('pointerup', function() {
+                glitchfilter.animating = false;
+                // TweenMax.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
+                // TweenMax.to(glitchfilter, 0.5, {
+                //     offset: 0,
+                //     slices: 0,
+                //     onUpdate: function() {
+                //         // console.log(glitchfilter.green)
+                //     }
+                // })
+            })
+            this.pic.on('mouseover', function() {
                 this.pic.play()
             }, this)
             this.pic.on('mouseout', function() {
-                glitchfilter.animating = false;
+                
                 this.pic.stop()
-                TweenMax.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
-                TweenMax.to(glitchfilter, 0.5, {
-                    offset: 0,
-                    slices: 0,
-                    onUpdate: function() {
-                        // console.log(glitchfilter.green)
-                    }
-                })
+
             }, this)
 
             var gui = new dat.GUI({ autoPlace: false });

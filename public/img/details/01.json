@@ -246,7 +246,7 @@
 	"image": "01.png",
 	"format": "RGBA8888",
 	"size": {"w":1882,"h":1139},
-	"scale": "1.5",
+	"scale": "1",
 	"smartupdate": "$TexturePacker:SmartUpdate:f2b1db83b945775a606203690bcfcaaf:d486c6e8ea77d98ce02f99ee5b98d50d:cf195ddaf31720fe648a908f06cb03b4$"
 }
 }
