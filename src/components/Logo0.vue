@@ -26,9 +26,9 @@
     </div>
 </template>
 <script>
-import TimelineLite from 'gsap/TimelineLite'
 var kute = require("kute.js"); //grab the core
 require("kute.js/kute-svg"); // Add SVG Plugin
+import { gsap } from "gsap";
 export default {
     name: 'logo',
     data() {
@@ -52,7 +52,7 @@ export default {
             var turbVal = { val: 0.000001 };
             var turb = document.querySelectorAll('#noise feTurbulence')[0];
             if (this.nosieTl === null) {
-                this.nosieTl = new TimelineLite({
+                this.nosieTl = gsap.timeline({
                     paused: true,
                     delay: d,
                     onUpdate: function() {

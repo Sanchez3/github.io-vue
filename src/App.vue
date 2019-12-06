@@ -26,8 +26,7 @@
 </template>
 <script>
 import Logo0 from './components/Logo0'
-// import { TweenMax } from 'gsap'
-// import TimelineMax from 'gsap/TimelineMax'
+import { gsap } from "gsap";
 export default {
     name: 'App',
     components: {
@@ -55,9 +54,8 @@ export default {
         renderClosebtn: function() {
             var line0 = document.getElementsByClassName('line0')[0];
             var line1 = document.getElementsByClassName('line1')[0];
-            // TweenMax.to(line0, 0.3, { width: 0 });
-            // TweenMax.set([line0, line1], { scaleX: 0 });
-            this.lineTl = new TimelineLite({
+            
+            this.lineTl = gsap.timeline({
                 paused: true
             })
             this.lineTl.to(line1, 0.1, { scaleX: 1 })
@@ -74,7 +72,7 @@ export default {
             var turbVal = { val: 0.000001 };
             var turb = document.querySelectorAll('#noise feTurbulence')[0];
             if (this.nosieTl === null) {
-                this.nosieTl = new TimelineLite({
+                this.nosieTl = gsap.timeline({
                     paused: true,
                     delay: d,
                     onUpdate: function() {

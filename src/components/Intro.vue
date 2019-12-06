@@ -19,7 +19,7 @@ export default {
   name: 'intro',
   methods: {
     initFa: function() {
-      TweenMax.to(window, 1, { scrollTo: { y: window.innerHeight } })
+      gsap.to(window, 1, { scrollTo: { y: window.innerHeight } })
     },
     onDocumentMouseMove: function(event) {
       var windowHalfX = window.innerWidth / 2
@@ -32,7 +32,7 @@ export default {
         move.style.left = 0
         move.style.top = windowHalfY - parseFloat(move.clientHeight) + 'px'
       }
-      TweenMax.set(move, {
+      gsap.set(move, {
         x: +(mouseX - parseFloat(move.style.left)) * 0.05,
         y: -(mouseY - parseFloat(move.style.top)) * 0.05
       })

@@ -6,8 +6,7 @@ import store from './store'
 import 'animate.css'
 import 'font-awesome.css'
 import imagesLoaded from 'imagesloaded'
-import { TweenMax, TimelineLite, Power2, Elastic, CSSPlugin } from "gsap/TweenMax"
-import EndArrayPlugin from "gsap/EndArrayPlugin";
+import { gsap } from "gsap";
 import Typed from 'typed.js'
 
 
@@ -37,7 +36,7 @@ var v = new Vue({
             var v = { p: 0 }
 
             var counts = document.getElementsByTagName('img').length
-            var t1 = TweenMax.fromTo('.st0', 1, { fill: '#000' }, {
+            var t1 = gsap.fromTo('.st0', 1, { fill: '#000' }, {
                 fill: '#F7F7EF',
                 paused: true
             })
@@ -51,7 +50,7 @@ var v = new Vue({
                 var result = image.isLoaded ? 'loaded' : 'broken'
                 console.log('image is ' + result + ' for ' + image.img.src)
                 var _p = Math.round(instance.progressedCount / counts * 100)
-                TweenMax.to(v, 0.5, {
+                gsap.to(v, 0.5, {
                     p: _p,
                     onUpdate: function() {
                         if (v.p / 100 < 0.6) {
@@ -68,10 +67,10 @@ var v = new Vue({
                 t1.progress(1)
                 document.getElementById('app').classList.remove('overflow')
                 window.scrollTo(0, 0)
-                TweenMax.to('#logo-container', 0.5, {
+                gsap.to('#logo-container', 0.5, {
                     height: '0.9rem',
                 })
-                TweenMax.to('#logo', 0.5, {
+                gsap.to('#logo', 0.5, {
                     height: '0.72rem',
                     width: '1.58rem',
                     margin: 'auto 0.31rem'
