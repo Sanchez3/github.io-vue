@@ -3,110 +3,7 @@ import { GlitchFilter } from '@pixi/filter-glitch';
 // import PixelStretchFilter from '../filters/PixelStretchFilter.js'
 import * as dat from 'dat.gui';
 import { gsap } from "gsap";
-// import Tendril from './Tendrils.js'
-var ctx,
-    hue,
-    buffer,
-    target = { x: 0, y: 0 },
-    tendrils = [],
-    settings = {};
-settings.debug = false;
-settings.friction = 0.5;
-settings.trails = 10;
-settings.size = 30;
-settings.dampening = 0.25;
-settings.tension = 0.98;
-
-function Tendril(options) {
-    this.init(options || {});
-}
-Tendril.prototype = (function() {
-    function Dot() {
-        this.x = 0;
-        this.y = 0;
-        this.vy = 0;
-        this.vx = 0;
-    }
-
-    return {
-
-        init: function(options) {
-
-            this.spring = options.spring + (Math.random() * 0.1) - 0.05;
-            this.friction = settings.friction + (Math.random() * 0.01) - 0.005;
-            this.dots = [];
-
-            for (var i = 0, dot; i < settings.size; i++) {
-
-                dot = new Dot();
-                dot.x = target.x;
-                dot.y = target.y;
-                // console.log(dot)
-                this.dots.push(dot);
-            }
-
-        },
-
-        update: function() {
-
-            var spring = this.spring,
-                dot = this.dots[0];
-
-            dot.vx += (target.x - dot.x) * spring;
-            dot.vy += (target.y - dot.y) * spring;
-
-            for (var prev, i = 0, n = this.dots.length; i < n; i++) {
-
-                dot = this.dots[i];
-
-                if (i > 0) {
-
-                    prev = this.dots[i - 1];
-
-                    dot.vx += (prev.x - dot.x) * spring;
-                    dot.vy += (prev.y - dot.y) * spring;
-                    dot.vx += prev.vx * settings.dampening;
-                    dot.vy += prev.vy * settings.dampening;
-                }
-
-                dot.vx *= this.friction;
-                dot.vy *= this.friction;
-                dot.x += dot.vx;
-                dot.y += dot.vy;
-
-                spring *= settings.tension;
-            }
-        },
-
-        draw: function(ctx) {
-
-            var x = this.dots[0].x,
-                y = this.dots[0].y,
-                a, b;
-            ctx.clear();
-            ctx.lineStyle(2, 0xffffff, 1);
-            // ctx.beginPath();
-            ctx.moveTo(x, y);
-
-            for (var i = 1, n = this.dots.length - 2; i < n; i++) {
-
-                a = this.dots[i];
-                b = this.dots[i + 1];
-                x = (a.x + b.x) * 0.5;
-                y = (a.y + b.y) * 0.5;
-
-                ctx.quadraticCurveTo(a.x, a.y, x, y);
-            }
-
-            a = this.dots[i];
-            b = this.dots[i + 1];
-
-            ctx.quadraticCurveTo(a.x, a.y, b.x, b.y);
-            // ctx.stroke();
-            // ctx.closePath();
-        }
-    };
-})();
+import Tendril from './Tendrils.js'
 class PixiWorld {
     constructor() {
         this.init()
@@ -149,7 +46,6 @@ class PixiWorld {
         var that = this;
         var iWidth = window.innerWidth;
         var iHeight = window.innerHeight;
-        console.log(this.animating)
         var app = new PIXI.Application({
             width: iWidth,
             height: iHeight,
@@ -174,6 +70,9 @@ class PixiWorld {
         app.loader.add('08', './img/details/08.json')
         app.loader.add('09', './img/details/09.json')
         app.loader.add('10', './img/details/10.json')
+
+        app.loader.add('v01', './img/details/v01.json')
+
         app.loader.load(onLoaded.bind(this))
 
         function onLoaded(loader, resources) {
@@ -212,75 +111,33 @@ class PixiWorld {
             gui.add(glitchfilter.green, "0", -50, 50).name("green.x");
             gui.add(glitchfilter.green, "1", -50, 50).name("green.y");
 
-            var delta = 0;
-            var radius = 0;
-            var cds = [];
-            var cdslength = 103;
-            var graphics2 = new PIXI.Graphics();
-            app.stage.addChild(graphics2);
-            target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
-            var tendril = new Tendril({ spring: 0.5 })
-
+            var vDelta = 0;
             var graphics = new PIXI.Graphics();
-            graphics.x = app.screen.width / 2;
-            graphics.y = app.screen.height / 2
-
+            // graphics.lineColor
+            
             app.stage.addChild(graphics);
-            for (var i = 0; i < cdslength; i++) {
-                cds.push({ x: 0, y: 0 });
+
+            var tendril = new Tendril({ spring: 0.5 })
+            tendril.target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
+
+            var vertices = resources['v01'].data['01'].vertices;
+            var verticesL = vertices.length;
+
+            function ttoV(t) {
+                if (vDelta >= verticesL) vDelta = 0;
+
+                t.x = vertices[vDelta].x+this.pic.x;
+                t.y = vertices[vDelta].y+this.pic.x;
+                console.log(vertices[vDelta].x,vertices[vDelta].y)
+                vDelta++;
             }
-            // TweenMax
-            function getRad(degree) {
-                return degree / 180 * Math.PI;
-            }
-            // var zb = { i: 0 };
-            // var a, b;
-            // var spiralTl = gsap.timeline({
-            //     repeat: 2,
-            //     yoyo: true,
-            //     onUpdate: function() {
-            //         // drawSpiral()
-
-            //         graphics.clear();
-            //         graphics.lineStyle(6, 0x29ABE2);
-            //         graphics.arc(0, 0, 45, getRad(270), getRad(360 * zb.i / 100 + 270), false);
-            //         graphics.endFill();
-            //         // for (let i = 0; i < cdslength; i++) {
-            //         //     let _x = radius * Math.cos(getRad(delta));
-            //         //     let _y = radius * Math.sin(getRad(delta));
-            //         //     cds[i] = { x: _x, y: _y };
-            //         //     delta = zb.i * 10;
-            //         //     radius = zb.i;
-            //         // }
-            //         // graphics.lineStyle(2, 0xffffff, 1);
-            //         // // graphics.moveTo(0, 0);
-            //         // for (let i = 1, n = cdslength - 2; i < n; i++) {
-            //         //     a = cds[i];
-            //         //     b = cds[i + 1];
-            //         //     var x = (a.x + b.x) * 0.5;
-            //         //     var y = (a.y + b.y) * 0.5;
-            //         //     graphics.quadraticCurveTo(a.x, a.y, x, y);
-            //         // }
-            //         // a = cds[cdslength - 2];
-            //         // b = cds[cdslength - 1];
-            //         // graphics.quadraticCurveTo(a.x, a.y, b.x, b.y);
-
-
-            //     }
-            // });
-            // spiralTl.to(zb, {
-            //     i: 80,
-            //     duration: 5
-            // })
 
             var pressing = false;
             this.pic.interactive = true;
             this.pic.on('pointerdown', function() {
                 glitchfilter.animating = true;
                 pressing = true;
-                target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
-
-
+                // tendril.target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
             }, this)
             this.pic.on('pointerup', function() {
                 glitchfilter.animating = false;
@@ -309,12 +166,11 @@ class PixiWorld {
                     glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
                     glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
                     glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                    ttoV.bind(this,tendril.target)()
                 }
-                // if (pressing) {
                 tendril.update();
-                tendril.draw(graphics2);
-                // }
-            })
+                tendril.draw(graphics);
+            },this)
             // window.addEventListener('resize', this.handleResize.bind(this))
             // this.handleResize();
             this.animateTimer = 0;
@@ -331,10 +187,9 @@ class PixiWorld {
                 var ex = event.data.global.x
                 var ey = event.data.global.y
                 if (!pressing) {
-                    target.x = ex;
-                    target.y = ey;
+                    tendril.target.x = ex;
+                    tendril.target.y = ey;
                 }
-
                 // console.log(ex, ey)
                 if (ex > 0.55 * iWidth) ex = 0.55 * iWidth;
                 if (ex < 0.45 * iWidth) ex = 0.45 * iWidth;
@@ -348,6 +203,9 @@ class PixiWorld {
                 this.pic.x += (mouseX - this.pic.x) * 0.008;
                 this.pic.y += (-mouseY - this.pic.y) * 0.008;
             }, this);
+            // this.events.on('pressing', function() {
+            // }, this)
+
         }
     }
     animate(t) {
