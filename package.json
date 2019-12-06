@@ -11,6 +11,7 @@
     "@pixi/filter-glitch": "^3.0.3",
     "@pixi/filter-old-film": "^2.6.0",
     "animate.css": "^3.6.1",
+    "color": "^3.1.2",
     "core-js": "^2.6.5",
     "dat.gui": "^0.7.6",
     "font-awesome.css": "^4.7.2",
