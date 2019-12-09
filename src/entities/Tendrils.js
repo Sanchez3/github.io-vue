@@ -81,7 +81,7 @@ class Tendril {
         this.hueDelta++;
         // console.log(this.hueDelta)
         var _color = Color(`hsla(${this.hueDelta % 360},90%,50%,0.25)`)
-        console.log(_color.hex())
+        // console.log(_color.hex())
         // var _hsl = colorString.to.hsl([this.hueDelta % 360, 90 , 50 ])
         // console.log(colorString)
         ctx.lineStyle(1, _color.rgbNumber(), 0.5, 0);

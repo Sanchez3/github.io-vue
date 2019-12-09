@@ -97,6 +97,7 @@ export default {
     position: absolute;
     width: 2.06rem;
     height: 0.94rem;
+    max-height: 100px;
     top: 0;
     bottom: 0;
     left: 0;

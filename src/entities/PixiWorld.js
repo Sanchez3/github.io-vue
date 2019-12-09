@@ -1,4 +1,6 @@
-import * as PIXI from 'pixi.js'
+import * as PIXI from 'pixi.js';
+window.PIXI = PIXI;
+require("pixi-layers")
 import { GlitchFilter } from '@pixi/filter-glitch';
 // import PixelStretchFilter from '../filters/PixelStretchFilter.js'
 import * as dat from 'dat.gui';
@@ -8,15 +10,17 @@ class PixiWorld {
     constructor() {
         this.init()
     }
-    initSprite(r) {
-        var _resource = r;
+    initSprite(res, no) {
+        var layer = new PIXI.display.Layer();
+        var _res = res;
+        var _no = no;
         var sprite;
         var anim = false;
-        console.log(_resource)
-        if ((_resource.data).hasOwnProperty('frames')) anim = true;
+        console.log(_res)
+        if ((_res[_no].data).hasOwnProperty('frames')) anim = true;
         if (anim) {
-            var frames = _resource.data.frames;
-            var meta = _resource.data.meta;
+            var frames = _res[_no].data.frames;
+            var meta = _res[_no].data.meta;
             var textures = [];
             console.log(frames)
             var count = 0;
@@ -31,11 +35,22 @@ class PixiWorld {
             sprite.loop = true;
             sprite.scale.set(1);
             sprite.anchor.set(0.5);
-            sprite.play()
+            sprite.canplay = true;
+            sprite.parentLayer = layer;
+            if (_no == '07') {
+                var spriteb = new PIXI.Sprite(_res['p7'].texture)
+                spriteb.anchor.set(0.5);
+                spriteb.parentLayer = layer;
+                sprite.addChild(spriteb);
+                sprite.zOrder = 1;
+                spriteb.zOrder = 2;
+            }
+            // sprite.play()
         } else {
-            sprite = new PIXI.Sprite(_resource.texture);
+            sprite = new PIXI.Sprite(_res[_no].texture);
             sprite.anchor.set(0.5);
             sprite.scale.set(1);
+            sprite.canplay = false;
         }
 
 
@@ -59,6 +74,7 @@ class PixiWorld {
         document.getElementsByClassName('canvas-element')[0].appendChild(app.view);
         // document.body.appendChild(app.view);
         // PIXI.utils.clearTextureCache;
+
         app.loader.add('00', `./img/details/00.png`)
         app.loader.add('01', './img/details/01.json')
         app.loader.add('02', './img/details/02.json')
@@ -67,20 +83,32 @@ class PixiWorld {
         app.loader.add('05', './img/details/05.json')
         app.loader.add('06', './img/details/06.json')
         app.loader.add('07', './img/details/07.json')
+        app.loader.add('p7', './img/details/p7.png')
         app.loader.add('08', './img/details/08.json')
+
         app.loader.add('09', './img/details/09.json')
         app.loader.add('10', './img/details/10.json')
-
-        app.loader.add('v01', './img/details/v01.json')
+        for (var i = 0; i < 11; i++) {
+            i = i < 10 ? '0' + i : i;
+            app.loader.add('v' + i, `./img/details/v${i}.json`)
+        }
 
         app.loader.load(onLoaded.bind(this))
 
         function onLoaded(loader, resources) {
+            var pjNo = 0;
+            this.pjs = new PIXI.Container();
+            app.stage.addChild(this.pjs)
+            for (let i = 0; i < 11; i++) {
+                let no = i < 10 ? '0' + i : i;
+                this.pic = this.initSprite(resources, no);
+                this.pic.x = app.screen.width / 2;
+                this.pic.y = app.screen.height / 2;
+                this.pjs.addChild(this.pic)
+            }
 
-            this.pic = this.initSprite(resources[`01`]);
-            this.pic.x = app.screen.width / 2;
-            this.pic.y = app.screen.height / 2;
-            app.stage.addChild(this.pic)
+
+
             // this.picT = resources.pic1.texture;
             app.stage.interactive = true;
             app.stage.on('pointerdown', function() {
@@ -114,48 +142,63 @@ class PixiWorld {
             var vDelta = 0;
             var graphics = new PIXI.Graphics();
             // graphics.lineColor
-            
+
             app.stage.addChild(graphics);
 
             var tendril = new Tendril({ spring: 0.5 })
             tendril.target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
-
-            var vertices = resources['v01'].data['01'].vertices;
+            var _pjNo = pjNo < 10 ? '0' + pjNo : pjNo;
+            console.log((''+pjNo).padStart(2,'0'))
+            var vertices = resources[`v${(''+pjNo).padStart(2,'0')}`].data[`${(''+pjNo).padStart(2,'0')}`].vertices;
             var verticesL = vertices.length;
 
             function ttoV(t) {
                 if (vDelta >= verticesL) vDelta = 0;
+                if (vDelta % 1 === 0) {
 
-                t.x = vertices[vDelta].x+this.pic.x;
-                t.y = vertices[vDelta].y+this.pic.x;
-                console.log(vertices[vDelta].x,vertices[vDelta].y)
-                vDelta++;
+                    t.x = vertices[vDelta].x + this.pjs.getChildAt(pjNo).x;
+                    t.y = vertices[vDelta].y + this.pjs.getChildAt(pjNo).y;
+                    console.log(t.x, t.y)
+                }
+
+
+                vDelta += 0.5;
             }
 
             var pressing = false;
+            var startTime;
             this.pic.interactive = true;
             this.pic.on('pointerdown', function() {
                 glitchfilter.animating = true;
                 pressing = true;
+                startTime = Date.now();
                 // tendril.target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
             }, this)
             this.pic.on('pointerup', function() {
                 glitchfilter.animating = false;
                 pressing = false
-                // TweenMax.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
-                // TweenMax.to(glitchfilter, 0.5, {
-                //     offset: 0,
-                //     slices: 0,
-                //     onUpdate: function() {
-                //         // console.log(glitchfilter.green)
-                //     }
-                // })
+                gsap.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
+                gsap.to(glitchfilter, 0.1, {
+                    offset: 0,
+                    slices: 0,
+                    onUpdate: function() {
+                        // console.log(glitchfilter.green)
+                    }
+                })
+
+                var elapsed = Date.now() - startTime;
+                if (elapsed > 1000) {
+                    pjNo++;
+                }
+
             })
-            this.pic.on('mouseover', function() {
-                this.pic.play()
+            this.pic.on('pointerover', function() {
+                if (this.pic.canplay)
+                    this.pic.play()
             }, this)
-            this.pic.on('mouseout', function() {
-                this.pic.stop()
+            this.pic.on('pointerout', function() {
+                if (this.pic.canplay)
+                    this.pic.stop()
             }, this)
 
             this.events.on('animate', function() {
@@ -166,11 +209,11 @@ class PixiWorld {
                     glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
                     glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
                     glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                    ttoV.bind(this,tendril.target)()
+                    ttoV.bind(this, tendril.target)()
                 }
                 tendril.update();
                 tendril.draw(graphics);
-            },this)
+            }, this)
             // window.addEventListener('resize', this.handleResize.bind(this))
             // this.handleResize();
             this.animateTimer = 0;
@@ -190,7 +233,7 @@ class PixiWorld {
                     tendril.target.x = ex;
                     tendril.target.y = ey;
                 }
-                // console.log(ex, ey)
+                console.log(ex, ey)
                 if (ex > 0.55 * iWidth) ex = 0.55 * iWidth;
                 if (ex < 0.45 * iWidth) ex = 0.45 * iWidth;
                 if (ey > 0.55 * iHeight) ey = 0.55 * iHeight;
