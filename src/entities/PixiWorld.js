@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 window.PIXI = PIXI;
+global.PIXI = PIXI;
 require("pixi-layers")
+// require("pixi-projection");
 import { GlitchFilter } from '@pixi/filter-glitch';
 // import PixelStretchFilter from '../filters/PixelStretchFilter.js'
 import * as dat from 'dat.gui';
@@ -90,6 +92,11 @@ class PixiWorld {
         document.getElementsByClassName('canvas-element')[0].appendChild(app.view);
         // document.body.appendChild(app.view);
         // PIXI.utils.clearTextureCache;
+        // var camera = new PIXI.projection.Camera3d();
+        // camera.position.set(app.screen.width / 2, app.screen.height / 2);
+        // camera.setPlanes(350, 30, 10000);
+        // camera.euler.x = Math.PI / 5.5;
+        // app.stage.addChild(camera);
 
         app.loader.add('00', `./img/details/00.png`)
         app.loader.add('01', './img/details/01.json')
@@ -114,34 +121,31 @@ class PixiWorld {
         function onLoaded(loader, resources) {
             var glitchfilter = new GlitchFilter({ slices: 1, offset: 0, direction: 90, fillMode: 0, seed: 0.5, red: [0, 0], blue: [0, 0] })
             // this.pjs.filters = [glitchfilter]
+            var glitchfilter0 = new GlitchFilter({ slices: 1, offset: 0, direction: 0 })
+
             var pjNo = 0;
             this.pjs = new PIXI.Container();
-            this.pjs.width = app.screen.width * 2;
-            this.pjs.height = app.screen.height * 2;
+            console.log(this.pjs)
             app.stage.addChild(this.pjs)
             for (let i = 0; i < 11; i++) {
                 let no = i < 10 ? '0' + i : i;
                 this.pic = this.initSprite(resources, no);
                 this.pic.x = app.screen.width / 2;
                 this.pic.y = app.screen.height / 2;
-
                 this.pjs.addChild(this.pic)
-
             }
             this.pjs.getChildAt(0).alpha = 1;
-            app.stage.filters = [glitchfilter]
 
-            // this.picT = resources.pic1.texture;
-            app.stage.interactive = true;
-            app.stage.on('pointerdown', function() {
-                // console.log(tendril.dots)
-            })
+            var bg = new PIXI.Graphics().beginFill(0x000000).drawRect(0, 0, app.screen.width, app.screen.height).endFill();
+            bg.alpha = 0;
+            this.pjs.addChild(bg);
 
+            this.pjs.filters = [glitchfilter0, glitchfilter]
             glitchfilter.animating = false;
             console.log(glitchfilter)
             var gui = new dat.GUI({ autoPlace: false });
             document.getElementsByClassName('gui-container')[0].appendChild(gui.domElement);
-            gui.add(glitchfilter, 'animating').name('(animating)');
+            gui.add(glitchfilter, 'animating').name('(animating)').listen();
             gui.add(glitchfilter, 'seed', 0, 1).step(0.01);
             gui.add(glitchfilter, 'slices').min(0).max(20).step(1).name('slices').listen();
             gui.add(glitchfilter, 'offset', -400, 1000).listen();;
@@ -169,7 +173,6 @@ class PixiWorld {
             var tendril = new Tendril({ spring: 0.5 })
             tendril.target = { x: Math.random() * app.screen.width, y: Math.random() * app.screen.height }
             var _pjNo = pjNo < 10 ? '0' + pjNo : pjNo;
-            console.log(('' + pjNo).padStart(2, '0'))
             // var vertices = resources[`v${(''+pjNo).padStart(2,'0')}`].data[`${(''+pjNo).padStart(2,'0')}`].vertices;
             // var verticesL = vertices.length;
 
@@ -201,6 +204,7 @@ class PixiWorld {
             this.pic.on('pointerup', function() {
                 glitchfilter.animating = false;
                 pressing = false
+                gsap.set(glitchfilter0, { offset: 0, slices: 0 })
                 gsap.set(glitchfilter, { red: [0, 0], green: [0, 0], blue: [0, 0] })
                 gsap.to(glitchfilter, 0.2, {
                     offset: 0,
@@ -227,12 +231,12 @@ class PixiWorld {
                     this.events.emit('glitch');
                     // glitchfilter.offset += Math.random() * 50;
                     // glitchfilter.slices++;
-                    glitchfilter.red = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                    glitchfilter.green = [Math.random() * 5 - 10, Math.random() * 5 - 10]
-                    glitchfilter.blue = [Math.random() * 5 - 10, Math.random() * 5 - 10]
+                    glitchfilter.red = [Math.random() * 20 - 20, Math.random() * 20 - 20]
+                    glitchfilter.green = [Math.random() * 20 - 20, Math.random() * 20 - 20]
+                    glitchfilter.blue = [Math.random() * 20 - 20, Math.random() * 20 - 20]
                     ttoV.bind(this, tendril.target)()
                     elapsed = Date.now() - startTime;
-                    if (elapsed > 2000) {
+                    if (elapsed > 1500) {
                         startTime = Date.now();
                         this.events.emit('change');
                     }
@@ -241,7 +245,7 @@ class PixiWorld {
                 tendril.update();
                 tendril.draw(graphics);
             }, this)
-            // window.addEventListener('resize', this.handleResize.bind(this))
+            window.addEventListener('resize', this.handleResize.bind(this))
             // this.handleResize();
             this.animateTimer = 0;
             app.ticker.add(this.animate, this);
@@ -249,13 +253,30 @@ class PixiWorld {
                 mouseY = null;
             var windowHalfX = iWidth / 2;
             var windowHalfY = iHeight / 2;
-            app.stage.interactive = true;
-            app.stage
-                .on('mousemove', onPointerMove)
+            // app.stage.interactive = true;
+            document.addEventListener('mousemove', onPointerMove)
+            document.addEventListener('touchmove', onPointerMove)
+            // app.stage
+            //     .on('pointermove', onPointerMove)
+            console.log(app.screen)
+            app.screen.interactive = true;
+            // app.screen
+            //     .on('pointerdown', function(event) {
+            //         var ex = event.data.global.x
+            //         var ey = event.data.global.y
+            //         console.log('down')
+            //         // console.log(ex, ey)
+            //     }, this)
             // document.addEventListener('mousemove', onDocumentMouseMove, false);
             function onPointerMove(event) {
-                var ex = event.data.global.x
-                var ey = event.data.global.y
+                var ex, ey;
+                if (event.touches) {
+                    ex = event.touches[0].pageX;
+                    ey = event.touches[0].pageY;
+                } else {
+                    ex = event.clientX;
+                    ey = event.clientY;
+                }
                 if (!pressing) {
                     tendril.target.x = ex;
                     tendril.target.y = ey;
@@ -275,6 +296,7 @@ class PixiWorld {
             }, this);
 
             this.events.on('glitch', function() {
+                gsap.set(glitchfilter0, { slices: Math.floor(Math.random() * 2 + 5), offset: Math.random() * app.screen.width / 2 })
                 if (glitchfilter.offset < app.screen.height / 2)
                     glitchfilter.offset += Math.random() * 10;
                 if (_sliceDelta < 50) {
@@ -289,23 +311,37 @@ class PixiWorld {
                 //     glitchfilter.slices = (_sliceDelta % 1);
                 // }
             }, this)
-            function renderPj(pjNo){
 
-            }
 
             this.events.on('change', function() {
-                var t0=gsap.to(this.pjs.getChildAt(pjNo), 0.3, { alpha: 0, paused: false })
-                // .alpha = 0;
-                if (this.pjs.getChildAt(pjNo).canplay)
-                    this.pjs.getChildAt(pjNo).stop();
+
+                var tl = gsap.timeline({ paused: true })
+                tl.addLabel('start', 0);
+                var pj0 = this.pjs.getChildAt(pjNo);
+                tl.to(pj0, 0.3, {
+                    alpha: 0,
+                    onComplete: function() {
+                        if (pj0.canplay)
+                            pj0.stop();
+                    }
+                }, 'start')
+
                 pjNo++;
                 pjNo = pjNo > 10 ? 0 : pjNo;
-                var pjNo_n=pjNo;
-                var t1=gsap.to(this.pjs.getChildAt(pjNo_n), 0.3, { alpha: 1, paused: false })
-                // this.pjs.getChildAt(pjNo).alpha = 1;
-                if (this.pjs.getChildAt(pjNo).canplay) this.pjs.getChildAt(pjNo).play();
+                var pj1 = this.pjs.getChildAt(pjNo);
+                tl.to(pj1, 0.3, {
+                    alpha: 1,
+                    onStart: function() {
+                        if (pj1.canplay)
+                            pj1.play();
+                    }
+                }, 'start')
 
+                // if (this.pjs.getChildAt(pjNo).canplay)
+                //     this.pjs.getChildAt(pjNo).play();
 
+                tl.play()
+                // tl.progress(0.5);
 
             }, this)
             // this.events.emit('change');
@@ -322,27 +358,27 @@ class PixiWorld {
     handleResize() {
         var w = window.innerWidth;
         var h = window.innerHeight;
-        var pic = this.pic;
-        var scale0 = 0.9
-        var tw = this.picT.width;
-        var th = this.picT.height;
-        var s = tw / th;
-        // console.log(s)
-        if (s > w / h) {
-            if (w > tw) {
-                pic.scale.set(w / tw * scale0)
-            } else {
-                pic.scale.set(tw / w * scale0)
+        // var pic = this.pic;
+        // var scale0 = 0.9
+        // var tw = this.picT.width;
+        // var th = this.picT.height;
+        // var s = tw / th;
+        // // console.log(s)
+        // if (s > w / h) {
+        //     if (w > tw) {
+        //         pic.scale.set(w / tw * scale0)
+        //     } else {
+        //         pic.scale.set(tw / w * scale0)
 
-            }
-        } else {
-            if (h > th) {
-                pic.scale.set(h / th * scale0)
-            } else {
-                pic.scale.set(th / h * scale0)
+        //     }
+        // } else {
+        //     if (h > th) {
+        //         pic.scale.set(h / th * scale0)
+        //     } else {
+        //         pic.scale.set(th / h * scale0)
 
-            }
-        }
+        //     }
+        // }
         this.app.renderer.resize(w, h);
     }
 
